@@ -7,6 +7,8 @@ export const serverScheme = z.object({
 	DATABASE_URL: z.string(),
 	NEXTAUTH_URL: z.string(),
 	SECRET: z.string(),
+	GITHUB_ID: z.string(),
+	GITHUB_SECRET: z.string(),
 })
 
 export const clientScheme = z.object({

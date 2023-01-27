@@ -7,7 +7,7 @@ export const router = t.router
 export const procedure = t.procedure
 export const protectedProcedure = t.procedure.use(
 	t.middleware(async ({ ctx, next }) => {
-		if (!ctx.session || !ctx.session.user) {
+		if (!ctx.session || !ctx.session.user || !ctx.session.user.email) {
 			throw new TRPCError({
 				code: "UNAUTHORIZED",
 				message: "You are not authorized to access this resource",

@@ -6,7 +6,7 @@ declare global {
 	var prisma: any | undefined
 }
 
-export const prisma: any =
+export const prisma: PrismaClient =
 	global.prisma ||
 	new PrismaClient({
 		log:
@@ -17,4 +17,16 @@ export const prisma: any =
 
 if (serverEnv.NODE_ENV !== "production") {
 	global.prisma = prisma
+}
+
+export const getUserId = async (email: string) => {
+	const res = await prisma.user.findUnique({
+		where: {
+			email: email,
+		},
+		select: { id: true },
+	})
+	console.log(await prisma.user.findMany())
+
+	return res?.id as string
 }

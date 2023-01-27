@@ -3,9 +3,12 @@ import type { FetchCreateContextFnOptions } from "@trpc/server/adapters/fetch"
 import { prisma } from "~/server/db/client"
 import { getSession } from "~/server/auth/session"
 import { authConfig } from "../auth/config"
+import { Session } from "zihan-auth-core/types"
 
 export const createContextInner = async (opts: FetchCreateContextFnOptions) => {
-	const session = await getSession(opts.req, authConfig)
+	const session = (await getSession(opts.req, authConfig)) as
+		| (Session & { user: { email: string } })
+		| null
 
 	return {
 		...opts,

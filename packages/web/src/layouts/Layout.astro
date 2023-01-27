@@ -1,9 +1,13 @@
 ---
+import { authConfig } from "~/server/auth/config"
+import { getSession } from "~/server/auth/session"
+
 export interface Props {
 	title: string
 }
 
 const { title } = Astro.props
+const session = await getSession(Astro.request, authConfig)
 ---
 
 <!DOCTYPE html>
@@ -16,6 +20,10 @@ const { title } = Astro.props
 		<title>{title}</title>
 	</head>
 	<body>
+		<template type="application/json" id="session">
+			{JSON.stringify(session)}
+		</template>
+
 		<slot />
 	</body>
 </html>

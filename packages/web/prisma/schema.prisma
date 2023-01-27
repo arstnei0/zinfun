@@ -3,7 +3,7 @@ generator client {
 }
 
 datasource db {
-    provider     = "sqlite"
+    provider     = "mysql"
     url          = env("PUBLIC_DATABASE_URL")
     relationMode = "prisma"
 }
@@ -45,6 +45,8 @@ model User {
     image         String?
     accounts      Account[]
     sessions      Session[]
+    Site          Site[]
+    Comment       Comment[]
 }
 
 model VerificationToken {
@@ -53,4 +55,36 @@ model VerificationToken {
     expires    DateTime
 
     @@unique([identifier, token])
+}
+
+model Site {
+    id     String @id @default(cuid())
+    name   String
+    user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+    userId String
+    Page   Page[]
+
+    @@index([userId])
+}
+
+model Page {
+    id       String    @id @default(cuid())
+    site     Site      @relation(fields: [siteId], references: [id], onDelete: Cascade)
+    siteId   String
+    name     String?
+    comments Comment[]
+
+    @@index([siteId])
+}
+
+model Comment {
+    id      String @id @default(cuid())
+    content String
+    userId  String
+    user    User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+    Page    Page?  @relation(fields: [pageId], references: [id])
+    pageId  String
+
+    @@index([userId])
+    @@index([pageId])
 }

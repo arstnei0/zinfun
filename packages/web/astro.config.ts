@@ -21,5 +21,11 @@ export default defineConfig({
 				key: fs.readFileSync("./localhost.key"),
 			},
 		},
+		resolve: {
+			alias: {
+				style: "/src/styles/imports.sass",
+				db: "/src/server/db/client",
+			},
+		},
 	},
 })
