@@ -7,13 +7,17 @@ const UI: Component<{ config: Config }> = (props) => {
 		id: props.config.pageId,
 		siteId: props.config.id,
 	}))
+	const comments = trpc.page.comments.useQuery(() => ({
+		pageId: props.config.pageId,
+	}))
 	const newComment = trpc.page.comment.useMutation()
 	const [newCommentContent, setNewCommentContent] = createSignal("")
 
 	return (
 		<>
-			<Show when={page.data}>
-				<h1>{page.data._count.comments} comments</h1>
+			<Show when={page.data && comments.data?.count !== undefined}>
+				<h2>{page.data.view} views</h2>
+				<h1>{comments.data.count} comments</h1>
 				<input
 					value={newCommentContent()}
 					onInput={(e) =>
@@ -26,12 +30,12 @@ const UI: Component<{ config: Config }> = (props) => {
 							pageId: props.config.pageId,
 							content: newCommentContent(),
 						})
-						page.refetch()
+						comments.refetch()
 					}}
 				>
 					Comment
 				</button>
-				<For each={page.data.comments}>
+				<For each={comments.data.data}>
 					{(comment) => <p>{comment.content}</p>}
 				</For>
 			</Show>

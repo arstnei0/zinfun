@@ -21,15 +21,29 @@ export const pageRouter = router({
 		.query(async ({ input: { id, siteId } }) => {
 			let page = await prisma.page.findUnique({
 				where: { id },
-				include: viewPageIncludeOptions,
 			})
 			if (!page)
 				page = await prisma.page.create({
 					data: { id, siteId },
-					include: viewPageIncludeOptions,
 				})
+			await prisma.page.update({
+				where: { id },
+				data: {
+					view: page.view + 1,
+				},
+			})
+			page.view += 1
 
 			return page
+		}),
+	comments: procedure
+		.input(z.object({ pageId: z.string() }))
+		.query(async ({ input }) => {
+			const comments = await prisma.comment.findMany({
+				where: { pageId: input.pageId },
+			})
+
+			return { count: comments.length, data: comments }
 		}),
 	comment: procedure
 		.input(z.object({ pageId: z.string(), content: z.string() }))

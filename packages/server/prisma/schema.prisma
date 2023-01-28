@@ -73,6 +73,7 @@ model Page {
     siteId   String
     name     String?
     comments Comment[]
+    view     Int       @default(0)
 
     @@index([siteId])
 }
