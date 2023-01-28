@@ -1,4 +1,4 @@
-import { serverScheme } from "./schema"
+import { serverScheme } from "../env/schema"
 import type { ZodFormattedError } from "zod"
 
 export const formatErrors = (

@@ -78,11 +78,11 @@ model Page {
 }
 
 model Comment {
-    id      String @id @default(cuid())
+    id      String  @id @default(cuid())
     content String
-    userId  String
-    user    User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-    Page    Page?  @relation(fields: [pageId], references: [id])
+    userId  String?
+    user    User?   @relation(fields: [userId], references: [id], onDelete: Cascade)
+    Page    Page?   @relation(fields: [pageId], references: [id])
     pageId  String
 
     @@index([userId])

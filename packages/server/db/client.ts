@@ -1,5 +1,5 @@
 import { PrismaClient } from "@prisma/client"
-import { serverEnv } from "~/env/server"
+import { serverEnv } from "~env/server"
 
 declare global {
 	// eslint-disable-next-line no-var
@@ -7,7 +7,7 @@ declare global {
 }
 
 export const prisma: PrismaClient =
-	global.prisma ||
+	globalThis.prisma ||
 	new PrismaClient({
 		log:
 			serverEnv.NODE_ENV === "development"
@@ -16,17 +16,16 @@ export const prisma: PrismaClient =
 	})
 
 if (serverEnv.NODE_ENV !== "production") {
-	global.prisma = prisma
+	globalThis.prisma = prisma
 }
 
-export const getUserId = async (email: string) => {
+export const getUserId = async <T extends string | undefined>(email: T) => {
 	const res = await prisma.user.findUnique({
 		where: {
 			email: email,
 		},
 		select: { id: true },
 	})
-	console.log(await prisma.user.findMany())
 
-	return res?.id as string
+	return res?.id as T
 }

@@ -1,5 +1,5 @@
-import { Auth, AuthConfig } from "zihan-auth-core"
-import { Session } from "zihan-auth-core/types"
+import { Auth, AuthConfig } from "@auth/core"
+import { Session } from "@auth/core/types"
 
 export type GetSessionResult = Promise<Session | null>
 
@@ -7,7 +7,6 @@ export async function getSession(
 	req: Request,
 	options: AuthConfig
 ): GetSessionResult {
-	options.secret ??= process.env.AUTH_SECRET
 	options.trustHost ??= true
 
 	const url = new URL("/api/auth/session", req.url)

@@ -1,14 +1,15 @@
 {
-	"extends": "astro/tsconfigs/base",
 	"compilerOptions": {
-		"strict": true,
 		"jsx": "preserve",
 		"jsxImportSource": "solid-js",
+		"moduleResolution": "node",
+		"target": "ESNext",
+		"module": "ESNext",
 		"baseUrl": ".",
+		"skipLibCheck": true,
 		"paths": {
-			"~/*": ["./src/*"],
 			"~server/*": ["../server/*"],
-			"~env/*": ["../env/*"]
+			"db": ["../server/db/client"]
 		}
 	}
 }

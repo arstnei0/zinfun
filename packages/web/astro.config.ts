@@ -24,7 +24,7 @@ export default defineConfig({
 		resolve: {
 			alias: {
 				style: "/src/styles/imports.sass",
-				db: "/src/server/db/client",
+				db: "../server/db/client",
 			},
 		},
 	},

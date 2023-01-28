@@ -1,9 +1,11 @@
+import { useNavigate } from "@solidjs/router"
 import { Component, createSignal } from "solid-js"
 import { trpc } from "~/lib/trpc"
 
 export const NewSitePage: Component = () => {
 	const [name, setName] = createSignal("")
 	const newSite = trpc.site.new.useMutation()
+	const navigate = useNavigate()
 
 	return (
 		<>
@@ -14,7 +16,8 @@ export const NewSitePage: Component = () => {
 			></input>
 			<button
 				onClick={async () => {
-					newSite.mutate({ name: name() })
+					await newSite.mutate({ name: name() })
+					navigate("/")
 				}}
 			>
 				Add

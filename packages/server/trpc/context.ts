@@ -1,9 +1,9 @@
 import type { inferAsyncReturnType } from "@trpc/server"
 import type { FetchCreateContextFnOptions } from "@trpc/server/adapters/fetch"
-import { prisma } from "~/server/db/client"
-import { getSession } from "~/server/auth/session"
+import { prisma } from "db"
+import { getSession } from "../auth/session"
 import { authConfig } from "../auth/config"
-import { Session } from "zihan-auth-core/types"
+import { Session } from "@auth/core/types"
 
 export const createContextInner = async (opts: FetchCreateContextFnOptions) => {
 	const session = (await getSession(opts.req, authConfig)) as

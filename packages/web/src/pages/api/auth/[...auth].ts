@@ -1,6 +1,6 @@
-import { Auth } from "zihan-auth-core"
+import { Auth } from "@auth/core"
 import { APIRoute } from "astro"
-import { authConfig } from "~/server/auth/config"
+import { authConfig } from "~server/auth/config"
 
 const handler: APIRoute = async (ctx) => {
 	const response = await Auth(ctx.request, authConfig)
