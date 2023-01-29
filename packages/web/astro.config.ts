@@ -3,6 +3,7 @@ import solidJs from "@astrojs/solid-js"
 import compress from "astro-compress"
 import fs from "fs"
 import vercel from "@astrojs/vercel/serverless"
+import node from "@astrojs/node"
 
 // https://astro.build/config
 export default defineConfig({
@@ -13,7 +14,9 @@ export default defineConfig({
 		}),
 	],
 	output: "server",
-	adapter: vercel(),
+	adapter: node({
+		mode: "standalone",
+	}),
 	vite: {
 		server: {
 			https: {
@@ -24,7 +27,7 @@ export default defineConfig({
 		resolve: {
 			alias: {
 				style: "/src/styles/imports.sass",
-				db: "../server/db/client",
+				db: "/../server/db/client",
 			},
 		},
 	},

@@ -1,5 +1,5 @@
 {
-	"name": "script",
+	"name": "zinfun-script",
 	"scripts": {
 		"build": "vite build",
 		"dev": "vite build --watch"

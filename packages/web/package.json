@@ -12,6 +12,7 @@
 		"format": "prettier -w . --plugin-search-dir ."
 	},
 	"dependencies": {
+		"@astrojs/node": "^5.0.1",
 		"@astrojs/solid-js": "^2.0.0",
 		"@astrojs/vercel": "^3.0.0",
 		"@auth/core": "^0.3.0",

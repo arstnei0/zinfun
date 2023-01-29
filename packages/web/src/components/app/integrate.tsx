@@ -10,6 +10,10 @@ export const IntegratePage: Component = () => {
 		scriptEl.dataset.id = siteId
 		scriptEl.dataset.apiUrl = "https://localhost:3000/api/trpc"
 		document.body.appendChild(scriptEl)
+		const styleEl = document.createElement("link")
+		styleEl.rel = "stylesheet"
+		styleEl.href = "/static/style.css"
+		document.head.appendChild(styleEl)
 	})
 
 	return <></>

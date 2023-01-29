@@ -1,5 +1,6 @@
 generator client {
-    provider = "prisma-client-js"
+    provider        = "prisma-client-js"
+    previewFeatures = ["filteredRelationCount"]
 }
 
 datasource db {
@@ -38,15 +39,17 @@ model Session {
 }
 
 model User {
-    id            String    @id @default(cuid())
+    id            String     @id @default(cuid())
     name          String?
-    email         String?   @unique
+    email         String?    @unique
     emailVerified DateTime?
     image         String?
     accounts      Account[]
     sessions      Session[]
-    Site          Site[]
-    Comment       Comment[]
+    sites         Site[]
+    comments      Comment[]
+    reactions     Reaction[]
+    up            Comment[]  @relation("up")
 }
 
 model VerificationToken {
@@ -68,24 +71,54 @@ model Site {
 }
 
 model Page {
-    id       String    @id @default(cuid())
-    site     Site      @relation(fields: [siteId], references: [id], onDelete: Cascade)
-    siteId   String
-    name     String?
-    comments Comment[]
-    view     Int       @default(0)
+    id        String     @id @default(cuid())
+    site      Site       @relation(fields: [siteId], references: [id], onDelete: Cascade)
+    siteId    String
+    name      String?
+    comments  Comment[]
+    view      Int        @default(0)
+    reactions Reaction[]
 
     @@index([siteId])
 }
 
-model Comment {
-    id      String  @id @default(cuid())
-    content String
-    userId  String?
-    user    User?   @relation(fields: [userId], references: [id], onDelete: Cascade)
-    Page    Page?   @relation(fields: [pageId], references: [id])
-    pageId  String
+model Reaction {
+    id     String       @id @default(cuid())
+    userId String
+    user   User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+    pageId String
+    page   Page         @relation(fields: [pageId], references: [id], onDelete: Cascade)
+    type   ReactionType
 
     @@index([userId])
     @@index([pageId])
+}
+
+enum ReactionType {
+    Rocket
+    ThumbUp
+    ThumbDown
+    Happy
+    Sad
+    Party
+    Love
+    Eyes
+}
+
+model Comment {
+    id       String    @id @default(cuid())
+    date     DateTime  @default(now())
+    content  String
+    children Comment[] @relation("children")
+    parent   Comment?  @relation("children", fields: [parentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+    parentId String?
+    userId   String?
+    user     User?     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    page     Page?     @relation(fields: [pageId], references: [id])
+    pageId   String
+    up       User[]    @relation("up")
+
+    @@index([userId])
+    @@index([pageId])
+    @@index([parentId])
 }

@@ -1,7 +1,8 @@
 {
 	"scripts": {
 		"dev": "node scripts/dev.js",
-		"push": "node scripts/build.js"
+		"build": "node scripts/build.js",
+		"push": "cd packages/server && pnpm push"
 	},
 	"type": "module"
 }
