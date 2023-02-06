@@ -7,8 +7,8 @@
 		"target": "ESNext",
 		"paths": {
 			"~/*": ["./*"],
-			"db": ["./db/client"],
-			"~env/*": ["../env/*"]
-		}
+			"db": ["./db/client"]
+		},
+		"types": ["vite/client"]
 	}
 }

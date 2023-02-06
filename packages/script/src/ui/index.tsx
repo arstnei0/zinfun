@@ -1,26 +1,32 @@
 import { Component, Show, createEffect, createSignal, For } from "solid-js"
-import { Config } from "../entry"
 import trpc from "../trpc"
-import { Button } from "./Button"
 import { Comments } from "./comments"
 import { Reactions } from "./reactions"
-import "./style.css"
 
-const UI: Component<{ config: Config }> = (props) => {
+const UI: Component<{
+	pageId: string
+	siteId: string
+	showViews: boolean
+	showReactions: boolean
+}> = (props) => {
 	const page = trpc.page.view.useQuery(() => ({
-		id: props.config.pageId,
-		siteId: props.config.id,
+		id: props.pageId,
+		siteId: props.siteId,
 	}))
 
 	return (
 		<>
-			<div id="zf-container">
+			<div id="zf">
 				<Show when={page.data}>
-					<h2 id="zf-views">{page.data.view} views</h2>
+					<Show when={props.showViews}>
+						<h2 id="views">{page.data.view} views</h2>
+					</Show>
 
-					<Reactions config={props.config} />
+					<Show when={props.showReactions}>
+						<Reactions pageId={props.pageId} />
+					</Show>
 
-					<Comments config={props.config} />
+					<Comments pageId={props.pageId} />
 				</Show>
 			</div>
 		</>

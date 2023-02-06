@@ -4,5 +4,8 @@
 		"build": "node scripts/build.js",
 		"push": "cd packages/server && pnpm push"
 	},
-	"type": "module"
+	"type": "module",
+	"dependencies": {
+		"vite": "^4.0.4"
+	}
 }

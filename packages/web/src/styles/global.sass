@@ -1,0 +1,54 @@
+@import "./theme"
+@import "style"
+
+body
+    font-family: $sans
+    padding: .3em
+    background-color: $color-bg
+    color: $color-font-primary
+    scroll-behavior: smooth
+    overflow-x: hidden
+    overflow-y: scroll
+    transition: all .5s ease
+    margin-left: 10%
+    margin-right: 10%
+
+a
+    text-decoration: none
+    color: $color-font-accent
+
+main
+    @include desk
+        margin: 3em
+        margin-top: 1em
+
+// @keyframes dropin
+//     from
+//         transform: translateY(-70px)
+//         opacity: 0
+
+//     to
+//         transform: translateY(0px)
+//         opacity: 1
+
+*
+    box-sizing: border-box
+
+::-webkit-scrollbar,
+::-webkit-scrollbar-track
+    background-color: transparent
+
+::-webkit-scrollbar-thumb
+    background-color: $color-scrollbar
+    border: 5px solid transparent
+    background-clip: content-box
+    border-radius: 10px
+
+.nd
+    display: none
+
+@keyframes fadein
+    0%
+        opacity: 0
+    100%
+        opacity: 1

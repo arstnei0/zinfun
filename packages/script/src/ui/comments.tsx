@@ -7,19 +7,19 @@ import { Comment } from "./Comment"
 
 type SortBy = "up" | "date-new" | "date-old"
 
-export const Comments: Component<{ config: Config }> = (props) => {
+export const Comments: Component<{ pageId: string }> = (props) => {
 	const [sortBy, setSortBy] = createSignal("up" as SortBy)
 	const comments = trpc.page.comments.useQuery(() => ({
-		pageId: props.config.pageId,
+		pageId: props.pageId,
 		sortBy: sortBy(),
 	}))
 
 	return (
 		<>
 			<Show when={comments.data}>
-				<div id="zf-comments-container">
-					<div class="zf-comments-bar">
-						<h1 id="zf-comments-count">
+				<div id="comments-container">
+					<div class="comments-bar">
+						<h1 id="comments-count">
 							{comments.data.count} comments
 						</h1>
 						<select
@@ -35,7 +35,7 @@ export const Comments: Component<{ config: Config }> = (props) => {
 					</div>
 
 					<CommentInput
-						pageId={props.config.pageId}
+						pageId={props.pageId}
 						onSuccess={() => {
 							setSortBy("date-new")
 							comments.refetch()
@@ -46,7 +46,7 @@ export const Comments: Component<{ config: Config }> = (props) => {
 						{(comment) => (
 							<Comment
 								comment={comment}
-								pageId={props.config.pageId}
+								pageId={props.pageId}
 								onChange={() => comments.refetch()}
 							/>
 						)}

@@ -25,9 +25,9 @@ const reactionsMeta = {
 	[ReactionType.Happy]: ["😄", "happy"],
 }
 
-export const Reactions: Component<{ config: Config }> = (props) => {
+export const Reactions: Component<{ pageId: string }> = (props) => {
 	const reactions = trpc.page.reactions.useQuery(() => ({
-		pageId: props.config.pageId,
+		pageId: props.pageId,
 	}))
 	const react = trpc.page.react.useMutation({
 		onSuccess() {
@@ -37,25 +37,25 @@ export const Reactions: Component<{ config: Config }> = (props) => {
 
 	return (
 		<>
-			<div id="zf-reactions">
+			<div id="reactions">
 				<Show when={reactions.data}>
 					{Object.entries(reactionsMeta).map(
 						([reactionType, [emoji, id]]) => (
 							<button
-								class="zf-reaction"
+								class="reaction"
 								classList={{
 									reacted: reactions.data[reactionType][1],
 								}}
 								id={id}
 								onClick={async () => {
 									await react.mutate({
-										pageId: props.config.pageId,
+										pageId: props.pageId,
 										reactionType: reactionType,
 									})
 								}}
 							>
-								<div class="zf-reaction-emoji">{emoji}</div>
-								<div class="zf-reaction-count">
+								<div class="reaction-emoji">{emoji}</div>
+								<div class="reaction-count">
 									{reactions.data[reactionType][0]}
 								</div>
 							</button>

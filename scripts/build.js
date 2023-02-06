@@ -10,10 +10,12 @@ const _dirname =
 
 const webBuild = spawn("pnpm", ["build"], {
 	cwd: path.resolve(_dirname, "../packages/web"),
+	env: process.env,
 })
 webBuild.stdout.pipe(process.stdout)
 
 const scriptBuild = spawn("pnpm", ["build"], {
 	cwd: path.resolve(_dirname, "../packages/script"),
+	env: process.env,
 })
 scriptBuild.stdout.pipe(process.stdout)

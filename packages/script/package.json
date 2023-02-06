@@ -19,6 +19,6 @@
 	},
 	"type": "module",
 	"exports": {
-		".": "./dist/script.js"
+		".": "./src/Zinfun.tsx"
 	}
 }

@@ -1,12 +1,13 @@
 import { z } from "zod"
-import UI from "./ui"
 import { render } from "solid-js/web"
-import { trpc, client, queryClient } from "./trpc"
+import { Zinfun } from "./Zinfun"
 
 const Config = z.object({
 	id: z.string(),
 	pageId: z.string().default(window.location.pathname),
 	selector: z.string().default("append"),
+	showViews: z.coerce.boolean().default(true),
+	showReactions: z.coerce.boolean().default(true),
 	apiUrl: z.string().default("https://zinfun.vercel.app/api/trpc"),
 })
 export type Config = z.infer<typeof Config>
@@ -29,9 +30,13 @@ const rootEl =
 
 render(
 	() => (
-		<trpc.Provider client={client} queryClient={queryClient}>
-			<UI config={config} />
-		</trpc.Provider>
+		<Zinfun
+			pageId={config.pageId}
+			siteId={config.id}
+			apiUrl={config.apiUrl}
+			showViews={config.showViews}
+			showReactions={config.showReactions}
+		></Zinfun>
 	),
 	rootEl
 )

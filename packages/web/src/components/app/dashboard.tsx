@@ -2,6 +2,7 @@ import { Component, For, createEffect } from "solid-js"
 import { session } from "."
 import { trpc } from "~/lib/trpc"
 import { useNavigate, Link } from "@solidjs/router"
+import { Button } from "zulse/Button"
 
 export const Dashboard: Component = () => {
 	const sites = trpc.site.all.useQuery()
@@ -10,13 +11,18 @@ export const Dashboard: Component = () => {
 	return (
 		<>
 			<h1>Dashboard</h1>
-			<button
-				onClick={async () => {
-					navigate("/site/new")
-				}}
-			>
-				Add a new site
-			</button>
+			<div id="sites-header">
+				<h1>Sites</h1>
+				<div id="new-site-btn">
+					<Button
+						onClick={async () => {
+							navigate("/site/new")
+						}}
+					>
+						Add a new site
+					</Button>
+				</div>
+			</div>
 			<For each={sites.data || []}>
 				{(site) => (
 					<Link href={`/site/${site.id}`}>

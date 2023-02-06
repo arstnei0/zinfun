@@ -1,0 +1,63 @@
+---
+import { authConfig } from "~server/auth/config"
+import { getSession } from "~server/auth/session"
+import { Cursor } from "zulse/Cursor"
+import "~/styles/global.sass"
+
+export interface Props {
+	title: string
+}
+
+const { title } = Astro.props
+const session = await getSession(Astro.request, authConfig)
+---
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="generator" content={Astro.generator} />
+		<title>{title}</title>
+
+		<script is:inline>
+			const mode1 = localStorage.getItem("m")
+			if (!mode1) localStorage.setItem("m", "s")
+
+			const mode = mode1 ?? localStorage.getItem("m")
+			let modeClassName
+
+			if (mode === "s")
+				modeClassName =
+					globalThis.matchMedia &&
+					globalThis.matchMedia("(prefers-color-scheme: dark)")
+						.matches
+						? "d"
+						: "l"
+			else if (mode === "d") modeClassName = "d"
+			else modeClassName = "l"
+
+			modeClassName &&
+				document.documentElement.classList.add(modeClassName)
+
+			globalThis.m = mode
+		</script>
+
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&family=Noto+Serif:wght@400;700&family=Poppins:wght@300;400;500;700&display=swap"
+			rel="stylesheet"
+		/>
+	</head>
+	<body>
+		<Cursor client:idle />
+
+		<template type="application/json" id="session">
+			{JSON.stringify(session)}
+		</template>
+
+		<slot />
+	</body>
+</html>

@@ -12,6 +12,7 @@ process.env.BUNDLE = false
 
 const webDev = spawn("pnpm", ["dev"], {
 	cwd: path.resolve(_dirname, "../packages/web"),
+	env: process.env,
 })
 webDev.stdout.pipe(process.stdout)
 
